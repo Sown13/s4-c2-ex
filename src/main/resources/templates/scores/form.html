@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Score Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+<h2 class="mb-4">Score Form</h2>
+
+<form th:action="@{/scores}" th:object="${score}" method="post" class="card p-4 shadow-sm">
+
+    <!-- hidden ID -->
+    <input type="hidden" th:field="*{studentScoreId}"/>
+
+    <!-- Student -->
+    <div class="mb-3">
+        <label for="student" class="form-label">Student</label>
+        <select th:field="*{student.studentId}" class="form-select" id="student" required>
+            <option value="" disabled
+                    th:selected="${score.student == null}">-- Select student --</option>
+            <option th:each="s : ${students}"
+                    th:value="${s.studentId}"
+                    th:text="${s.fullName}"
+                    th:selected="${score.student != null and s.studentId == score.student.studentId}">
+            </option>
+        </select>
+    </div>
+
+    <!-- Subject -->
+    <div class="mb-3">
+        <label for="subject" class="form-label">Subject</label>
+        <select th:field="*{subject.subjectId}" class="form-select" id="subject" required>
+            <option value="" disabled
+                    th:selected="${score.subject == null}">-- Select subject --</option>
+            <option th:each="sub : ${subjects}"
+                    th:value="${sub.subjectId}"
+                    th:text="${sub.subjectName}"
+                    th:selected="${score.subject != null and sub.subjectId == score.subject.subjectId}">
+            </option>
+        </select>
+    </div>
+
+    <!-- Scores -->
+    <div class="mb-3">
+        <label for="score1" class="form-label">Score 1</label>
+        <input type="number" step="0.01" th:field="*{score1}"
+               class="form-control" id="score1" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="score2" class="form-label">Score 2</label>
+        <input type="number" step="0.01" th:field="*{score2}"
+               class="form-control" id="score2" required>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-between">
+        <a th:href="@{/scores}" class="btn btn-secondary">Back</a>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+
+</body>
+</html>
